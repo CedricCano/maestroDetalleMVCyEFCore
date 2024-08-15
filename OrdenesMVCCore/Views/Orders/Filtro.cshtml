@@ -1,0 +1,100 @@
+﻿@model IEnumerable<OrdenesMVCCore.Models.Order>
+
+@{
+    ViewData["Title"] = "Listado de Órdenes";
+    ViewBag.OrderId = 1;
+}
+
+<h1>Órdenes</h1>
+
+<p>
+
+
+        <a asp-action="Create" class="btn btn-primary" asp-controller="Orders" asp-route-id=@ViewBag.CustomerId>Crear nueva Orden</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subtotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Shipping)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer.CustomerName)
+
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subtotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Shipping)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+
+            </td>
+            <td>
+
+                <a asp-action="Details" asp-route-id="@item.OrderId">Details</a>
+                                <a class="btn btn-primary" asp-controller="OrderDetails" asp-route-id="@item.OrderId" asp-action="Filtro" 
+                                onclick="    ViewBag.OrderId=@item.OrderId">Detalle de la orden</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        window.addEventListener('load', function() {
+            var customerId = getCustomerIdFromURL();
+            //var orderId = getOrderIdFromURL();
+            ViewBag.CustomerId = customerId;
+
+        });
+
+        function getCustomerIdFromURL() {
+            var urlArray = window.location.href.split('/Filtro/');
+            var id = urlArray[urlArray.length - 1];
+            return id;
+        }
+
+        function getOrderIdFromURL() {
+            var urlArray = window.location.href.split('/Filtra/');
+            var id = urlArray[urlArray.length - 1];
+            ViewBag.OrderId = id;
+            return id;
+        }
+
+
+
+    </script>
+}
